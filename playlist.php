@@ -12,7 +12,6 @@
  Author URI: http://www.islam.com.kw
  License: It is Free -_-
 */
-
 include('functions.php');
 register_activation_hook(__FILE__,'quran_playlist_plugin_install'); 
 //add_action('init','quran_playlist_plugin_init');
@@ -36,7 +35,6 @@ function quran_playlist_plugin_install(){
 	add_option( 'check_autostart', 'on', null );
 	add_option( 'playlist_title', 'Quran Playlist', null );
 }
-
 //$language_id = get_option('quran_playlist_form');
 
 function QuranTranslations_sounds_loop($language_id=0){
@@ -271,4 +269,4 @@ $playlist_title = strip_tags(get_option('playlist_title'));
 <?php
 
 }
-
+?>
