@@ -32,8 +32,7 @@ function quran_playlist_plugin_install(){
 	add_option( 'show_playlist_realplayer', 'on', null );
 	add_option( 'show_playlist_Winamp', 'on', null );
 	add_option( 'show_playlist_tunein', 'on', null );
-	add_option( 'check_autostart', 'on', null );
-	add_option( 'playlist_title', 'Quran Playlist', null );
+	add_option( 'playlist_title', 'Quran Translations', null );
 }
 //$language_id = get_option('quran_playlist_form');
 
@@ -58,7 +57,6 @@ if(get_option('show_playlist_QuickTime') == 'on'){ $show_playlist_QuickTime = '<
 if(get_option('show_playlist_realplayer') == 'on'){ $show_playlist_realplayer = '<a target="_blank" href="'.QuranTranslations_get_languages($language_id,"realplayer").'"><img src="'.trailingslashit(plugins_url(null,__FILE__)).'images/Realplayer.png" alt="'.QuranTranslations_get_languages($language_id,"title").' Realplayer" title="'.QuranTranslations_get_languages($language_id,"title").' Realplayer" /></a>'; }else{ $show_playlist_realplayer = ''; }
 if(get_option('show_playlist_Winamp') == 'on'){ $show_playlist_Winamp = '<a target="_blank" href="'.QuranTranslations_get_languages($language_id,"winamp").'"><img src="'.trailingslashit(plugins_url(null,__FILE__)).'images/Winamp.png" alt="'.QuranTranslations_get_languages($language_id,"title").' Winamp" title="'.QuranTranslations_get_languages($language_id,"title").' Winamp" /></a>'; }else{ $show_playlist_Winamp = ''; }
 if(get_option('show_playlist_tunein') == 'on'){ $show_playlist_tunein = '<a target="_blank" href="'.QuranTranslations_get_languages($language_id,"tunein").'"><img src="'.trailingslashit(plugins_url(null,__FILE__)).'images/Tunein.png" alt="'.QuranTranslations_get_languages($language_id,"title").' Tunein" title="'.QuranTranslations_get_languages($language_id,"title").' Tunein" /></a>'; }else{ $show_playlist_tunein = ''; }
-if(get_option('check_autostart') == 'on'){ $check_autostart = 'checked="checked"'; }else{ $check_autostart = ''; }
 
 if(QuranTranslations_get_languages($language_id,"pdf") == ""){ $pdf = ""; }else{ $pdf = $show_playlist_pdf; }
 if(QuranTranslations_get_languages($language_id,"rss") == ""){ $rss = ""; }else{ $rss = $show_playlist_rss; }
@@ -121,6 +119,7 @@ return $text;
 }
  
 add_filter('the_content','quran_playlist_content_replace');
+
 add_action( 'admin_menu', 'quran_playlist_menu' );
 
 function quran_playlist_menu() {
@@ -144,7 +143,6 @@ if(isset($_POST['submitted']) && $_POST['submitted'] == 1){
 	if(isset($_POST['show_playlist_realplayer'])){ $show_playlist_realplayer = 'on'; }else{ $show_playlist_realplayer = 'off'; }
 	if(isset($_POST['show_playlist_Winamp'])){ $show_playlist_Winamp = 'on'; }else{ $show_playlist_Winamp = 'off'; }
 	if(isset($_POST['show_playlist_tunein'])){ $show_playlist_tunein = 'on'; }else{ $show_playlist_tunein = 'off'; }
-	if(isset($_POST['check_autostart'])){ $show_autostart = 'on'; }else{ $show_autostart = 'off'; }
 
 	update_option( 'quran_playlist_id', 0 );
 	update_option( 'show_quran_playlist_rss', $show_playlist_rss );
@@ -156,7 +154,6 @@ if(isset($_POST['submitted']) && $_POST['submitted'] == 1){
 	update_option( 'show_playlist_realplayer', $show_playlist_realplayer );
 	update_option( 'show_playlist_Winamp', $show_playlist_Winamp );
 	update_option( 'show_playlist_tunein', $show_playlist_tunein );
-	update_option( 'check_autostart', $show_autostart );
 	update_option( 'playlist_title', addslashes($_POST['playlist_title']) );
 }
 
@@ -173,10 +170,7 @@ if(get_option('show_playlist_QuickTime') == 'on'){ $check_show_playlist_QuickTim
 if(get_option('show_playlist_realplayer') == 'on'){ $check_show_playlist_realplayer = 'checked="checked"'; }else{ $check_show_playlist_realplayer = ''; }
 if(get_option('show_playlist_Winamp') == 'on'){ $check_show_playlist_Winamp = 'checked="checked"'; }else{ $check_show_playlist_Winamp = ''; }
 if(get_option('show_playlist_tunein') == 'on'){ $check_show_playlist_tunein = 'checked="checked"'; }else{ $check_show_playlist_tunein = ''; }
-if(get_option('check_autostart') == 'on'){ $check_autostart = 'checked="checked"'; }else{ $check_autostart = ''; }
 $playlist_title = strip_tags(get_option('playlist_title'));
-
-
 ?>
 	<div id="mainblock" class="submit">
 			<div class="dbx-content" style="background-color:#ffffff; border:1px solid #cccccc; padding:5px; text-align:center;">				
@@ -267,6 +261,5 @@ $playlist_title = strip_tags(get_option('playlist_title'));
 		</div>
 						
 <?php
-
 }
 ?>
