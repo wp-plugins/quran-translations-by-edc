@@ -1,10 +1,10 @@
 <?php
 /**
- * @package Quran Translations
+ * @package Quran Translations by EDC
  * @version 1.0
  */
 /*
- Plugin Name: Quran Translations
+ Plugin Name: Quran Translations by EDC
  Plugin URI: http://www.islam.com.kw/support
  Description: Quran Translations plugin is the first WordPress plugin that allows you to display a playlist for the translations of the meaning of the Quran.
  Version: 1.0

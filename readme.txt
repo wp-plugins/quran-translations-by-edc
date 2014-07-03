@@ -1,4 +1,4 @@
-=== Quran Translations ===
+=== Quran Translations by EDC ===
 Contributors: EDC Team
 Donate link: http://www.edc.org.kw/ar/category/donate/?lang=en
 Tags: Quran, translations of the meaning of the Quran, audio, audio files, audio transaltion, MP3, EDC
