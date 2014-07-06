@@ -2,7 +2,7 @@
 /* 
  * Files,Languages and functions
  * Author: EDC Team
- * Since: 1.0
+ * Since: 1.1
  */
 
 $sora_names = array('Quran','Al-Fatihah ( The Opening )','Al-Baqarah ( The Cow )','Al-Imran ( The Famiy of Imran )','An-Nisa ( The Women )','Al-Maidah ( The Table spread with Food )','Al-An&apos;am ( The Cattle )','Al-A&apos;raf (The Heights )','Al-Anfal ( The Spoils of War )','At-Taubah ( The Repentance )','Yunus ( Jonah )'

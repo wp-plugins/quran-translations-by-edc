@@ -4,7 +4,7 @@ Donate link: http://www.edc.org.kw/ar/category/donate/?lang=en
 Tags: Quran, translations of the meaning of the Quran, audio, audio files, audio transaltion, MP3, EDC
 Requires at least: 3.0
 Tested up to: 3.9
-Stable tag: 1.0
+Stable tag: 1.1
 
 Quran Translations plugin is the first WordPress plugin that allows you to display a playlist for the translations of the meaning of the Quran.
 
@@ -13,7 +13,7 @@ Quran Translations plugin is the first WordPress plugin that allows you to displ
 Quran Translations plugin is the first WordPress plugin that allows you to display a playlist for the translations of the meaning of the Quran in more than 38 languages, powered by EDC (e-Da`wah Committee).
 
 
-Major new features in Quran Translations 1.0 include:
+Major new features in Quran Translations 1.1 include:
 
 * You can play 1 out of 38 translations of the Quran
 * You can add the player to the Widget or to the post
@@ -35,6 +35,10 @@ PS: For Support click to [Islam.com.kw](http://www.islam.com.kw/support/), [powe
 1. Show in Post/Page
 
 == Changelog ==
+
+= 1.1 =
+
+* Fixed: header error.
 
 = 1.0 =
 

@@ -1,25 +1,27 @@
 <?php
 /**
  * @package Quran Translations by EDC
- * @version 1.0
+ * @version 1.1
  */
 /*
  Plugin Name: Quran Translations by EDC
  Plugin URI: http://www.islam.com.kw/support
  Description: Quran Translations plugin is the first WordPress plugin that allows you to display a playlist for the translations of the meaning of the Quran.
- Version: 1.0
+ Version: 1.1
  Author: EDC Team (E-Da`wah Committee)
  Author URI: http://www.islam.com.kw
  License: It is Free -_-
 */
 include('functions.php');
 register_activation_hook(__FILE__,'quran_playlist_plugin_install'); 
-//add_action('init','quran_playlist_plugin_init');
 
 wp_enqueue_style( 'wp-mediaelement' );
 wp_enqueue_script( 'wp-mediaelement' );
 wp_enqueue_script( 'wp-playlist' );
-do_action( 'wp_playlist_scripts', 'audio', 'light' );
+//do_action( 'wp_playlist_scripts', 'audio', 'light' );
+
+remove_action('wp_head', 'wp_playlist_scripts');
+add_action('wp_footer', 'wp_playlist_scripts', 5);
 
 function quran_playlist_plugin_install(){
 	add_option( 'quran_playlist_form', '1', null );
