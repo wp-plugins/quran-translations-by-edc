@@ -1,6 +1,6 @@
 === Quran Translations by EDC ===
 Contributors: EDC Team
-Donate link: http://www.edc.org.kw/ar/category/donate/?lang=en
+Donate link: http://www.edc.org.kw/
 Tags: Quran, translations of the meaning of the Quran, audio, audio files, audio transaltion, MP3, EDC
 Requires at least: 3.0
 Tested up to: 3.9
