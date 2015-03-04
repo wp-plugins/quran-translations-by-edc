@@ -1,13 +1,13 @@
 <?php
 /**
  * @package Quran Translations by EDC
- * @version 1.1
+ * @version 1.2
  */
 /*
  Plugin Name: Quran Translations by EDC
  Plugin URI: http://www.islam.com.kw/support
  Description: Quran Translations plugin is the first WordPress plugin that allows you to display a playlist for the translations of the meaning of the Quran.
- Version: 1.1
+ Version: 1.2
  Author: EDC Team (E-Da`wah Committee)
  Author URI: http://www.islam.com.kw
  License: It is Free -_-
@@ -15,13 +15,17 @@
 include('functions.php');
 register_activation_hook(__FILE__,'quran_playlist_plugin_install'); 
 
-wp_enqueue_style( 'wp-mediaelement' );
-wp_enqueue_script( 'wp-mediaelement' );
-wp_enqueue_script( 'wp-playlist' );
-//do_action( 'wp_playlist_scripts', 'audio', 'light' );
+function quran_playlist_plugin_scripts(){
+     wp_register_script('quran_playlist_plugin_scripts',plugin_dir_url( __FILE__ ).'js/js.js');
+     wp_enqueue_script('quran_playlist_plugin_scripts');
+}
+add_action('wp_enqueue_scripts','quran_playlist_plugin_scripts'); 
 
-remove_action('wp_head', 'wp_playlist_scripts');
-add_action('wp_footer', 'wp_playlist_scripts', 5);
+function quran_playlist_plugin_styles() {
+	wp_register_style( 'quran-playlist-styles', plugin_dir_url( __FILE__ ).'style.css' );
+	wp_enqueue_style( 'quran-playlist-styles' );
+}
+add_action( 'wp_enqueue_scripts', 'quran_playlist_plugin_styles' );
 
 function quran_playlist_plugin_install(){
 	add_option( 'quran_playlist_form', '1', null );
@@ -41,16 +45,30 @@ function quran_playlist_plugin_install(){
 function QuranTranslations_sounds_loop($language_id=0){
 global $sora_names;
 
+$moshafcount = count(QuranTranslations_get_languages('', '', 1));
+$nl = "\n";
+
+$code = '';
+
+if($language_id > $moshafcount){
+$code .= '<p>Not found this id <strong>'.intval($language_id).'</strong></p>';
+}else{
 $id = QuranTranslations_get_languages($language_id,"id");
 $QuranTranslationsgetsounds = QuranTranslations_get_sounds($id);
 $arrayname = QuranTranslations_get_sounds($id);
 $QuranTranslationscountsounds = count($QuranTranslationsgetsounds);
 $countsounds = count($QuranTranslationsgetsounds);
 
-$nl = "\n";
-$code = '';
-
-if(get_option('show_playlist_pdf') == 'on'){ $show_playlist_pdf = '<a target="_blank" href="'.QuranTranslations_get_languages($language_id,"pdf").'"><img src="'.trailingslashit(plugins_url(null,__FILE__)).'images/pdf.png" alt="'.QuranTranslations_get_languages($language_id,"title").' PDF" title="'.QuranTranslations_get_languages($language_id,"title").' PDF" /></a>'; }else{ $show_playlist_pdf = ''; }
+if(get_option('show_playlist_pdf') == 'on'){
+$files = explode(",", QuranTranslations_get_languages($language_id,"pdf"));
+$show_playlist_pdf = '';
+for($i=0; $i < count($files); $i++){
+$show_playlist_pdf .= '<a target="_blank" href="'.$files[$i].'"><img src="'.trailingslashit(plugins_url(null,__FILE__)).'images/pdf.png" alt="'.QuranTranslations_get_languages($language_id,"title").' PDF '.$i.'" title="'.QuranTranslations_get_languages($language_id,"title").' PDF '.$i.'" /></a> '; 
+}
+//$show_playlist_pdf = '<a target="_blank" href="'.QuranTranslations_get_languages($language_id,"pdf").'"><img src="'.trailingslashit(plugins_url(null,__FILE__)).'images/pdf.png" alt="'.QuranTranslations_get_languages($language_id,"title").' PDF" title="'.QuranTranslations_get_languages($language_id,"title").' PDF" /></a>'; 
+}else{
+$show_playlist_pdf = '';
+}
 if(get_option('show_quran_playlist_rss') == 'on'){ $show_playlist_rss = '<a target="_blank" href="'.QuranTranslations_get_languages($language_id,"rss").'"><img src="'.trailingslashit(plugins_url(null,__FILE__)).'images/rss.png" alt="'.QuranTranslations_get_languages($language_id,"title").' RSS" title="'.QuranTranslations_get_languages($language_id,"title").' RSS" /></a>'; }else{ $show_playlist_rss = ''; }
 if(get_option('show_playlist_podcast') == 'on'){ $show_playlist_podcast = '<a target="_blank" href="'.QuranTranslations_get_languages($language_id,"podcast").'"><img src="'.trailingslashit(plugins_url(null,__FILE__)).'images/podcast.png" alt="'.QuranTranslations_get_languages($language_id,"title").' Podcast" title="'.QuranTranslations_get_languages($language_id,"title").' Podcast" /></a>'; }else{ $show_playlist_podcast = ''; }
 if(get_option('show_playlist_txt') == 'on'){ $show_playlist_txt = '<a target="_blank" href="'.QuranTranslations_get_languages($language_id,"txt").'"><img src="'.trailingslashit(plugins_url(null,__FILE__)).'images/Download.png" alt="'.QuranTranslations_get_languages($language_id,"title").' Download" title="'.QuranTranslations_get_languages($language_id,"title").' Download" /></a>'; }else{ $show_playlist_txt = ''; }
@@ -70,48 +88,26 @@ if(QuranTranslations_get_languages($language_id,"realplayer") == ""){ $realplaye
 if(QuranTranslations_get_languages($language_id,"winamp") == ""){ $winamp = ""; }else{ $winamp = $show_playlist_Winamp; }
 if(QuranTranslations_get_languages($language_id,"tunein") == ""){ $tunein = ""; }else{ $tunein = $show_playlist_tunein; }
 
-$code .= '<div class="wp-playlist wp-audio-playlist wp-playlist-light">'.$nl;
-$code .= '<div class="wp-playlist-current-item"></div>'.$nl;
+$img = ''.trailingslashit(plugins_url(null,__FILE__)).'images/Download-file.png';
 
-$code .= '<div style="text-align:center;">'.$show_playlist_pdf.' '.$rss.' '.$podcast.' '.$txt.' '.$mediaplayer.' '.$quicktime.' '.$realplayer.' '.$winamp.' '.$tunein.'</div>'.$nl;
-
-$code .= '<p><audio class="wp-audio-shortcode" id="audio-'.$id.'" preload="none" style="width: 100%;" controls="controls"><source type="audio/mpeg" src="'.$arrayname[0][1].'?_=1" /><a href="'.$arrayname[0][1].'">'.$arrayname[0][1].'</a></audio></p>'.$nl;
-$code .= '<div class="wp-playlist-next"></div>'.$nl;
-$code .= '<div class="wp-playlist-prev"></div>'.$nl;
-$code .= '<p>'.$nl;
-$code .= '<script type="application/json">{'.$nl;
-$code .= '"type":"audio",'.$nl;
-$code .= '"tracklist":true,'.$nl;
-$code .= '"tracknumbers":true,'.$nl;
-$code .= '"images":true,'.$nl;
-$code .= '"artists":false,'.$nl;
-$code .= '"tracks":['.$nl;
+$code .= '<div class="view_all_surh">';
+$code .= '<div class="icons">'.$show_playlist_pdf.' '.$rss.' '.$podcast.' '.$txt.' '.$mediaplayer.' '.$quicktime.' '.$realplayer.' '.$winamp.' '.$tunein.'</div>'.$nl;
+if(QuranTranslations_get_languages($language_id,"language") == QuranTranslations_get_languages($language_id,"title")){
+$code .= '<h2>'.QuranTranslations_get_languages($language_id,"title").'</h2>'.$nl;
+}else{
+$code .= '<h1>'.QuranTranslations_get_languages($language_id,"language").' - '.QuranTranslations_get_languages($language_id,"title").'</h1>'.$nl;
+}
+$code .= '<ul>'.$nl;
 for ($i=0; $i<$countsounds; $i++) {
 if($countsounds == $i+1){ $addcomma = ''; }else{ $addcomma = ','; }
 
-$code .= '{'.$nl;
-$code .= '"src":"'.$arrayname[$i][1].'",'.$nl;
-$code .= '"type":"audio\/mpeg",'.$nl;
-if (is_numeric($arrayname[$i][0])) {
-$code .= '"title":"'.$sora_names[$arrayname[$i][0]].'",'.$nl;
-}else{
-$code .= '"title":"'.$arrayname[$i][0].'",'.$nl;
+if (is_numeric($arrayname[$i][0])) { $surhname = $sora_names[$arrayname[$i][0]]; $suranid = $arrayname[$i][0]; }else{ $surhname = $arrayname[$i][0]; $suranid = $i+1; }
+
+$code .= '<li id="element'.$suranid.'" onClick="javascript:changeText('.$suranid.', \''.$surhname.'\', \''.$arrayname[$i][1].'\', \''.$img.'\')">'.$suranid.'- '.$surhname.'</li>'.$nl;
 }
-$code .= '"caption":"",'.$nl;
-$code .= '"description":"",'.$nl;
-$code .= '"meta":{'.$nl;
-$code .= '"artist":"'.QuranTranslations_get_languages($language_id,"title").'",'.$nl;
-$code .= '"album":"'.QuranTranslations_get_languages($language_id,"language").'",'.$nl;
-$code .= '"genre":"Quran"'.$nl;
-//$code .= ',"length_formatted":"3:21"'.$nl;
-$code .= '},'.$nl;
-$code .= '"image":{"src":"'.trailingslashit(plugins_url(null,__FILE__)).'/images/logo.png","width":250,"height":250},'.$nl;
-$code .= '"thumb":{"src":"'.trailingslashit(plugins_url(null,__FILE__)).'/images/logo.png","width":250,"height":250}'.$nl;
-$code .= '}'.$addcomma.$nl.$nl;
-}
-$code .= ']'.$nl;
-$code .= '}</script>'.$nl;
+$code .= '</ul>'.$nl;
 $code .= '</div>'.$nl;
+}
 return $code;
 }
 
