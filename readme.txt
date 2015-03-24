@@ -19,7 +19,7 @@ Major new features in Quran Translations 1.2 include:
 * You can add the player to the Widget or to the post
 * You can control the display of the player
 
-PS: For Support click to [Islam.com.kw](http://www.islam.com.kw/support/), [powered by EDC (e-Da`wah Committee)](http://www.edc.org.kw).
+PS: For Support click to [Islam.com.kw](http://www.islam.com.kw/), [powered by EDC (e-Da`wah Committee)](http://www.edc.org.kw).
 
 == Installation ==
 
